@@ -1,102 +1,105 @@
-import tkinter as tk
-from tkinter import messagebox
-import tkinter.font as font
-import random
+board = {
+    'T1': ' ', 'T2': ' ', 'T3': ' ',
+    'M1': ' ', 'M2': ' ', 'M3': ' ',
+    'D1': ' ', 'D2': ' ', 'D3': ' '
+}
 
-root=tk.Tk()
-root.title("Tic Tac Toe")
-frame=tk.Frame(root)
-buttons=[]
-players=[]
-def reset():
-    for i in range(3):
-        for j in range(3):
-            b[i][j].config(text=" ",state="normal")
-    buttons[0].config(state="normal")
-    buttons[0].config(command=toss)
-
-def check(i,j):
-    global flag
-    for k in ['O','X']:
-        if not (k==flag):
-            flag=k
-            break
-    b[i][j].config(state="disabled",text=flag,relief="groove",disabledforeground="green")
-    for i in range(3):
-            if(b[i][0]["text"]==b[i][1]["text"]==b[i][2]["text"]=='O' or b[0][i]["text"]==b[1][i]["text"]==b[2][i]["text"]=='O'):
-                    messagebox.showinfo("Congrats!!","'"+players[0]+"' has won")
-                    reset()
-
-    if(b[0][0]["text"]==b[1][1]["text"]==b[2][2]["text"]=='O' or b[0][2]["text"]==b[1][1]["text"]==b[2][0]["text"]=='O'):
-        messagebox.showinfo("Congrats!!","'"+players[0]+"' has won")
-        reset()
-
-    for i in range(3):
-            if(b[i][0]["text"]==b[i][1]["text"]==b[i][2]["text"]=='X' or b[0][i]["text"]==b[1][i]["text"]==b[2][i]["text"]=='X'):
-                    messagebox.showinfo("Congrats!!","'"+players[1]+"' has won")
-                    reset()
-                    
-    if(b[0][0]["text"]==b[1][1]["text"]==b[2][2]["text"]=='X' or b[0][2]["text"]==b[1][1]["text"]==b[2][0]["text"]=='X'):
-        messagebox.showinfo("Congrats!!","'"+players[1]+"' has won")
-        reset()
-        
-    elif(b[0][0]["state"]==b[0][1]["state"]==b[0][2]["state"]==b[1][0]["state"]==b[1][1]["state"]==b[1][2]["state"]==b[2][0]["state"]==b[2][1]["state"]==b[2][2]["state"]=="disabled"):
-        messagebox.showinfo("Tied!!","The match ended in a draw")
-        reset()
-
-def build_game():
-    frame2.pack(expand=True)
-
-def toss():
-    global a
-    a=random.randint(0,100000)
-    a=a%2
-    buttons[0].config(state="disabled")
-    p1=entry1.get()
-    p2=entry2.get()
-    if a==1:
-        messagebox.showinfo(p1+" won the toss")
-        players.append(p1)
-        players.append(p2)
-    else:
-        messagebox.showinfo(p2+" won the toss")
-        players.append(p2)
-        players.append(p1)
-    build_game()
+player = 1          # to initialise first player
+total_moves = 0     # to count the moves
+end_check = 0
 
 
-def play():
-    button1['state']=tk.DISABLED
-    frame_l=tk.Frame(root)
-    tk.Label(frame_l,text="Let's Toss. !! :D",bg="black",fg="green",font=myFont).grid(row=1,column=2)
-    name="b1"
-    b1=tk.Button(frame_l,text="Click to Toss",highlightbackground="yellow",font=myFont,command=lambda :[ toss() ])
-    buttons.append(b1)
-    b1.grid(row=2,column=2,padx=20,pady=20   )
-    frame_l.pack()
+def check():
+    # checking the moves of player one
+    # for horizontal(start)
+    if board['T1'] == 'X' and board['T2'] == 'X' and board['T3'] == 'X':
+        print('Player one won !')
+        return 1
+    if board['M1'] == 'X' and board['M2'] == 'X' and board['M3'] == 'X':
+        print('Player One Won!!')
+        return 1
+    if board['D1'] == 'X' and board['D2'] == 'X' and board['D3'] == 'X':
+        print('Player One Won!!')
+        return 1
+    # for horizontal(end)
+    # for diagonal(start)
+    if board['T1'] == 'X' and board['M2'] == 'X' and board['D3'] == 'X':
+        print('Player One Won!!')
+        return 1
+    # for diagonal(end)
+    # for vertical(start)
+    if board['T1'] == 'X' and board['M1'] == 'X' and board['D1'] == 'X':
+        print('Player One Won!!')
+        return 1
+    if board['T2'] == 'X' and board['M2'] == 'X' and board['D2'] == 'X':
+        print('Player One Won!!')
+        return 1
+    if board['T3'] == 'X' and board['M3'] == 'X' and board['D3'] == 'X':
+        print('Player One Won!!')
+        return 1
+    # for vertical(end)
 
-def button(frame):
-    b=tk.Button(frame,padx=1,fg="green",width=3,text="   ",font=('arial',20,'bold'),relief="sunken",highlightbackground="skyblue",bd=1)
-    return b
+    # checking the moves of player two
+    if board['T1'] == 'O' and board['T2'] == 'O' and board['T3'] == 'O':
+        print('Player Two Won!!')
+        return 1  # used to end the game
+    if board['M1'] == 'O' and board['M2'] == 'O' and board['M3'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    if board['D1'] == 'O' and board['D2'] == 'O' and board['D3'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    if board['T1'] == 'O' and board['M2'] == 'O' and board['D3'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    if board['T1'] == 'O' and board['M1'] == 'O' and board['D1'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    if board['T2'] == 'O' and board['M2'] == 'O' and board['D2'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    if board['T3'] == 'O' and board['M3'] == 'O' and board['D3'] == 'O':
+        print('Player Two Won!!')
+        return 1
+    return 0
 
-flag='X'
-myFont=font.Font(size=20)
-label1=tk.Label(frame,text="Player 1 Name:- ",bg="black",fg="green",font=myFont)
-label1.grid(row=1,column=1,padx=5,pady=5)
-entry1=tk.Entry(frame,bg="black",fg="green",font=myFont)
-entry1.grid(row=1,column=2,padx=5,pady=5)
-label2=tk.Label(frame,text="Player 2 Name:- ",bg="black",fg="green",font=myFont)
-label2.grid(row=2,column=1)
-entry2=tk.Entry(frame,bg="black",fg="green",font=myFont)
-entry2.grid(row=2,column=2)
-button1=tk.Button(frame,text="Submit",highlightbackground="yellow",font=myFont,command=lambda :[ play() ])
-button1.grid(row=3,column=2,sticky="w",padx=5,pady=5)
-frame.pack(fill=tk.BOTH,expand=True)
-frame2=tk.Frame(root,bg="black")
-b=[[],[],[]]
-for i in range(3):
-        for j in range(3):
-                b[i].append(button(frame2))
-                b[i][j].config(command= lambda row=i,col=j:check(row,col))
-                b[i][j].grid(row=i,column=j)
-root.mainloop()
+
+print('T1|T2|T3')
+print('- +- +-')
+print('M1|M2|M3')
+print('- +- +-')
+print('D1|D2|D3')
+print('***************************')
+
+while True:
+    print(board['T1']+'|'+board['T2']+'|'+board['T3'])
+    print('-+-+-')
+    print(board['M1'] + '|' + board['M2'] + '|' + board['M3'])
+    print('-+-+-')
+    print(board['D1'] + '|' + board['D2'] + '|' + board['D3'])
+    end_check = check()
+    if total_moves == 9 or end_check == 1:
+        break
+    while True:     # input from players
+        if player == 1:  # choose player
+            p1_input = input('player one')
+            if p1_input.upper() in board and board[p1_input.upper()] == ' ':
+                board[p1_input.upper()] = 'X'
+                player = 2
+                break
+            # on wrong input
+            else:
+                print('Invalid input, please try again')
+                continue
+        else:
+            p2_input = input('player two')
+            if p2_input.upper() in board and board[p2_input.upper()] == ' ':
+                board[p2_input.upper()] = 'O'
+                player = 1
+                break
+            else:  # on wrong input
+                print('Invalid input, please try again')
+                continue
+    total_moves += 1
+    print('***************************')
+    print()
